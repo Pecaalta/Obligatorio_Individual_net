@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Obligatorio1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'Obligatorio1.dbo.EmployeesTPH' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="EmployeesTPH">
+          <Key>
+            <PropertyRef Name="EMP_ID" />
+            <PropertyRef Name="NAME" />
+            <PropertyRef Name="START_DATE" />
+          </Key>
+          <Property Name="EMP_ID" Type="int" Nullable="false" />
+          <Property Name="NAME" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="START_DATE" Type="datetime" Nullable="false" />
+          <Property Name="SALARY" Type="int" Nullable="false" />
+          <Property Name="RATE" Type="float" />
+          <Property Name="TYPE_EMP" Type="int" />
+        </EntityType>
+        <EntityContainer Name="Obligatorio1ModelStoreContainer">
+          <EntitySet Name="EmployeesTPH" EntityType="Self.EmployeesTPH" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [EmployeesTPH].[EMP_ID] AS [EMP_ID], 
+    [EmployeesTPH].[NAME] AS [NAME], 
+    [EmployeesTPH].[START_DATE] AS [START_DATE], 
+    [EmployeesTPH].[SALARY] AS [SALARY], 
+    [EmployeesTPH].[RATE] AS [RATE], 
+    [EmployeesTPH].[TYPE_EMP] AS [TYPE_EMP]
+    FROM [dbo].[EmployeesTPH] AS [EmployeesTPH]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Obligatorio1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="EmployeesTPH" Abstract="true">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+            <PropertyRef Name="name" />
+            <PropertyRef Name="StartDate" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TYPE_EMP" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="Obligatorio1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EmployeesTPH" EntityType="Self.EmployeesTPH" />
+          </EntityContainer>
+        <EntityType Name="PartTimeEmployees" BaseType="Obligatorio1Model.EmployeesTPH" >
+          <Property Name="HourlyRate" Type="Double" />
+        </EntityType>
+        <EntityType Name="FullTimeEmployees" BaseType="Obligatorio1Model.EmployeesTPH">
+          <Property Name="Salary" Type="Int32" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Obligatorio1ModelStoreContainer" CdmEntityContainer="Obligatorio1Entities">
+          <EntitySetMapping Name="EmployeesTPH">
+            <EntityTypeMapping TypeName="IsTypeOf(Obligatorio1Model.EmployeesTPH)">
+              <MappingFragment StoreEntitySet="EmployeesTPH">
+                <ScalarProperty Name="StartDate" ColumnName="START_DATE" />
+                <ScalarProperty Name="name" ColumnName="NAME" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EMP_ID" />
+                <ScalarProperty Name="TYPE_EMP" ColumnName="TYPE_EMP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(Obligatorio1Model.FullTimeEmployees)">
+              <MappingFragment StoreEntitySet="EmployeesTPH">
+                <ScalarProperty Name="StartDate" ColumnName="START_DATE" />
+                <ScalarProperty Name="name" ColumnName="NAME" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EMP_ID" />
+                <Condition ColumnName="TYPE_EMP" Value="0" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(Obligatorio1Model.PartTimeEmployees)">
+              <MappingFragment StoreEntitySet="EmployeesTPH">
+                <ScalarProperty Name="StartDate" ColumnName="START_DATE" />
+                <ScalarProperty Name="name" ColumnName="NAME" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EMP_ID" />
+                <Condition ColumnName="TYPE_EMP" Value="0" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
